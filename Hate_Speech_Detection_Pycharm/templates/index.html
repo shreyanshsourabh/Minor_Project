@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minor Project</title>
+    <style>
+        *{
+            box-sizing: border-box;
+        }
+        body{
+            background-color: lightgreen;
+            font-size: 23px
+        }
+
+        .container{
+            display:flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+
+        h2{
+            color: green;
+            text-align: center;
+        }
+
+        #inp{
+            background-color: rgb(203, 236, 203);
+            border: 2px solid rgb(2, 40, 2);
+            border-radius: 10px;
+            width: 600px;
+            height: 200px;
+            margin: 14px 12px;
+            font-size: large;
+            box-shadow: 0px 10px 10px green;
+        }
+        .btn{
+            display: flex;
+            margin: auto;
+            background-color: rgb(84, 125, 2);
+            padding: 6px;
+            border: none;
+            cursor: pointer;
+            font-size: 20px;
+            border-radius: 4px;
+            justify-content: center;
+            align-items: center;
+
+        }
+        .btn:hover{
+            color: lightgreen;
+            background-color: green;
+        }
+        #result {
+            padding: 20px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            display: none;
+            margin: 100px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Hate Speech Recognition</h2>
+    <div class="container">
+        <form id="prediction-form" onsubmit="handleFormSubmit(event);">
+            <textarea id="inp" name="inp"></textarea><br>
+            <input class="btn" type="submit" value="Predict"><br>
+        </form>
+    </div>
+    <div id="result"></div>
+
+    <script>
+        async function handleFormSubmit(event) {
+            event.preventDefault();
+
+            // Get the input value
+            var inputText = document.getElementById('inp').value;
+
+            // Make an asynchronous request to the backend
+            const response = await fetch('/predict', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ inp: inputText }),
+            });
+
+            // Parse the JSON response
+            const result = await response.json();
+
+            // Display the result in the result div
+            var resultDiv = document.getElementById('result');
+            resultDiv.innerText = result;
+            resultDiv.style.display = 'block';
+        }
+    </script>
+</body>
+</html>
